@@ -1,0 +1,73 @@
+karyawan: 
+login/registrasi
+mengajukan pinjaman > pembayaran > pelunasan
+
+admin:
+kelola data karyawan
+konfirmasi peminjaman
+perhitungan peminjaman
+pembayaran peminjaman
+laporan peminjaman
+laporan pembayaran
+pelunasan
+
+
+manajer:
+melihat daftar peminjam
+laporan pembayaran
+pelunasan
+
+hrd:
+kelola data karyawan
+cetak laporan pembayaran
+pembuatan slip gaji
+
+
+
+
+
+database
+user
+- id_user int
+- username varchar(20)
+- password varchar(25)
+- nip varchar(25)
+- nama varchar (100)
+- role varchar (20)
+
+karyawan
+- id_karyawan int(11)
+- nip varchar (50)
+- nama varchar (100)
+- jenis_kelamin varchar(25)
+- alamat varchar(255)
+- bagian varchar(50)
+- tgl_masuk varchar(15)
+- sisa_kontrak varchar(15)
+- date varchar(10)
+
+pengajuan
+- id_pengajuan int(11)
+- nip varchar(50)
+- nama varchar(100)
+- bagian varchar(50)
+- sisa_kontrak(15)
+- tgl_pengajuan
+- besar_pinjam vachar(100)
+- jml_pinjaman_disetujui varchar(100)
+- tgl_acc varchar(10)
+- jml_cicilan varchar(100)
+- besar_cicilan varchar(100)
+- status varchar(15)
+
+pinjaman
+- id_pinjaman int
+- no_pinjaman varchar(20)
+- nama_peminjam varchar(100)
+- jml_pinjaman varchar(50)
+- tgl_pinjaman varchar(10)
+- tenor varchar(50)
+- jml_cicilan_pinjam varchar(50)
+- besar_cicilan_pinjam varchar(50)
+- catatan_peminjaman varchar(255)
+- date varchar(20)
