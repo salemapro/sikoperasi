@@ -44,7 +44,10 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
+                <!-- <button class="btn btn-carot" onclick="printData($id)"><i class="fa fa-fw fa-print"></i> Print Data</button> -->
+                <a href="<?= base_url('Laporan/print_data_pembayaran/' . $id) ?>" class="btn btn-info btn-md">
+                  <i class="fa fa-print"></i> Print Data
+                </a>
               </div>
 
               <div class="box-body table-responsive">
@@ -125,6 +128,9 @@
       $('#btn-delete').attr('href', url);
       $('#deleteModal').modal();
     }
+  </script>
+  <script type="text/javascript">
+
   </script>
 </body>
 

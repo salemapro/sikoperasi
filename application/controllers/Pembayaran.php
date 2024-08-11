@@ -33,8 +33,8 @@ class Pembayaran extends MY_Controller
 	{
 		$role = $this->session->userdata('role');
 		if ($role == 'admin') {
+			$data["id"] = $id;
 			$data["pembayaran"] = $this->M_pembayaran->get_all_detail($id);
-			// $data["pembayaran"] = $this->M_pembayaran->get_all_detail($id);
 			$this->load->view("admin/pembayaran/detail_pembayaran", $data);
 		} else if ($role == 'karyawan') {
 			$data["pembayaran"] = $this->M_pembayaran->get_detail_by_user($id);

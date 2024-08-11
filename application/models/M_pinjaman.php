@@ -7,6 +7,13 @@ class M_pinjaman extends CI_Model
 		return $this->db->get('pinjaman')->result();
 	}
 
+	public function get_data_by_id($id)
+	{
+		$this->db->from('pembayaran', 'pinjaman.id_pinjaman = pembayaran.pinjaman_id');
+		$this->db->where('id_pinjaman', $id);
+		return $this->db->get('pinjaman')->row();
+	}
+
 	public function get_data_lunas_all()
 	{
 		$this->db->where('catatan_peminjaman', 'Lunas');
