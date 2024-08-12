@@ -92,4 +92,15 @@ class User extends MY_Controller
 			$this->load->view("admin/user/edit_user", $data);
 		}
 	}
+
+	public function delete($id)
+	{
+		if ($this->M_user->delete($id)) {
+			$this->session->set_flashdata('success', 'Data User Berhasil Dihapus.');
+			redirect('user/index');
+		} else {
+			$this->session->set_flashdata('error', 'Data User Gagal Dihapus.');
+			redirect('user/index');
+		}
+	}
 }

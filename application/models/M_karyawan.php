@@ -106,6 +106,12 @@ class M_karyawan extends CI_Model
 		$this->db->where('id_karyawan', $id);
 		$this->db->update('karyawan', $data); // Untuk mengeksekusi perintah update data
 	}
+
+	public function delete($id)
+	{
+		$this->db->where('id_karyawan', $id);
+		return $this->db->delete('karyawan');
+	}
 }
 
 /* End of file .php */

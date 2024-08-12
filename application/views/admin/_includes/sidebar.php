@@ -29,7 +29,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">Navigation</li>
 
-      <li><a href="<?php echo base_url('Dashboard_controller/admin') ?>"><i class="fa fa-book"></i> <span>Dashboard</span></a></li>
+      <li><a href="<?php echo base_url('Dashboard/admin') ?>"><i class="fa fa-book"></i> <span>Dashboard</span></a></li>
 
 
       <li class="treeview">

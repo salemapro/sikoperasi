@@ -105,7 +105,7 @@ class M_pinjaman extends CI_Model
 	public function update($data, $id)
 	{
 		$this->db->where('id_pinjaman', $id);
-		$this->db->update('pinjaman', $data);
+		return $this->db->update('pinjaman', $data);
 	}
 
 	public function mengajukan_pelunasan($id)

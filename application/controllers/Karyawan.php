@@ -80,4 +80,15 @@ class Karyawan extends MY_Controller
 			$this->load->view('hrd/karyawan/edit_karyawan', $data);
 		}
 	}
+
+	public function delete($id)
+	{
+		if ($this->M_karyawan->delete($id)) {
+			$this->session->set_flashdata('success', 'Data Karyawan Berhasil Dihapus.');
+			redirect('karyawan/index');
+		} else {
+			$this->session->set_flashdata('error', 'Data Karyawan Gagal Dihapus.');
+			redirect('karyawan/index');
+		}
+	}
 }

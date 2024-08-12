@@ -51,6 +51,12 @@ class M_user extends CI_Model
 		$this->db->where('id_user', $id);
 		return $this->db->update('user', $data);
 	}
+
+	public function delete($id)
+	{
+		$this->db->where('id_user', $id);
+		return $this->db->delete('user');
+	}
 }
 
 /* End of file .php */

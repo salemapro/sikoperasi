@@ -96,4 +96,21 @@ class Pelunasan extends MY_Controller
 			redirect('pembayaran');
 		}
 	}
+
+	public function reject_pelunasan($id)
+	{
+		$data = array(
+			'catatan_peminjaman' => 'Belum Lunas'
+		);
+
+		$rejected = $this->M_pinjaman->update($data, $id);
+
+		if ($rejected) {
+			$this->session->set_flashdata('success', 'Reject Pelunasan Berhasil Ditolak.');
+			redirect('pembayaran');
+		} else {
+			$this->session->set_flashdata('error', 'Reject Pelunasan Gagal Ditolak.');
+			redirect('pembayaran');
+		}
+	}
 }

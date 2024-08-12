@@ -164,6 +164,29 @@
     </div>
   </div>
 
+  <!-- Reject Modal -->
+  <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rejectModalLabel">Reject Pelunasan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="rejectForm" method="post">
+            <p>Yakin Akan Menolak Pelunasan?</p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" id="confirmReject" class="btn btn-ijo">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <?php $this->load->view("admin/_includes/bottom_script_view.php") ?>
   <!-- page script -->
   <script>
@@ -227,9 +250,9 @@
       });
 
       $('.reject-btn').on('click', function() {
-        var id_pengajuan = $(this).data('id');
+        var id_pinjaman = $(this).data('id');
         $('#rejectModal').modal('show');
-        $('#rejectForm').attr('action', '<?php echo site_url('pengajuan/rejected/'); ?>' + id_pengajuan);
+        $('#rejectForm').attr('action', '<?php echo site_url('pelunasan/reject_pelunasan/'); ?>' + id_pinjaman);
       });
 
       $('#confirmApprove').on('click', function() {
