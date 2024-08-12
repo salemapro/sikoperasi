@@ -53,8 +53,11 @@
             <div class="box">
               <div class="box-header">
                 <!-- <a href="<?php echo base_url('Pinjaman_controller/list_anggota') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
-                <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
-                <button class="btn btn-ijo"><i class="fa fa-fw fa-upload"></i>Import Data</button>
+                <!-- <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
+                <button class="btn btn-ijo"><i class="fa fa-fw fa-upload"></i>Import Data</button> -->
+                <a href="<?= base_url('Laporan/print_data_pinjaman_admin/') ?>" class="btn btn-info btn-md">
+                  <i class="fa fa-print"></i> Print Data
+                </a>
               </div>
               <!-- /.box-header -->
               <div class="box-body table-responsive">

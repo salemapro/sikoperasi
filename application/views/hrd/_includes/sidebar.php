@@ -32,7 +32,7 @@
       <li><a href="<?php echo base_url('Dashboard/hrd') ?>"><i class="fa fa-book"></i> <span>Dashboard</span></a></li>
       <li><a href="<?php echo base_url('Karyawan') ?>"><i class="fa fa-fw fa-circle"></i> <span>Data Karyawan</span></a></li>
       <li><a href="<?php echo base_url('Pembayaran') ?>"><i class="fa fa-fw fa-circle"></i> <span>Data Pembayaran</span></a></li>
-      <li><a href="<?php echo base_url('Gaji') ?>"><i class="fa fa-fw fa-circle"></i> <span>Data Gaji</span></a></li>
+      <!-- <li><a href="<?php echo base_url('Gaji') ?>"><i class="fa fa-fw fa-circle"></i> <span>Data Gaji</span></a></li> -->
       <li><a href="<?php echo base_url('Auth/logout') ?>"><i class="fa fa-circle-o"></i>Sign out</a></li>
 
     </ul>

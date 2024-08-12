@@ -49,7 +49,7 @@
                         <div class="box">
                             <div class="box-header">
                                 <!-- <a href="<?php echo base_url('Pengajuan/add') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
-                                <a href="<?php echo base_url("Pengajuan/export"); ?>" class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</a>
+                                <!-- <a href="<?php echo base_url("Pengajuan/export"); ?>" class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</a> -->
                             </div>
                             <div class="box-body table-responsive">
                                 <table id="example1" class="table table-bordered table-hover">

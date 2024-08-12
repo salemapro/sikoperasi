@@ -46,6 +46,13 @@ class M_pinjaman extends CI_Model
 		return $this->db->get('pinjaman')->result();
 	}
 
+	public function check_pinjaman_exist($nip)
+	{
+		$this->db->where('nip_peminjam', $nip);
+		$this->db->where_in('catatan_peminjaman', ['Belum Lunas', 'Mengajukan Pelunasan']);
+		return $this->db->get('pinjaman')->result();
+	}
+
 	function get_no_pinjam()
 	{
 		$q = $this->db->query("SELECT MAX(RIGHT(no_pinjaman,4)) AS no_pinjaman FROM pinjaman");
@@ -76,6 +83,20 @@ class M_pinjaman extends CI_Model
 		return null;
 	}
 
+	public function get_data_pelunasan_by_id($id_pinjaman)
+	{
+		$this->db->select('pinjaman.no_pinjaman, pinjaman.jml_pinjaman, pinjaman.besar_cicilan_pinjam, pinjaman.jml_cicilan_pinjam, pembayaran.cicilan_ke, pembayaran.sisa_cicilan');
+		$this->db->join('pembayaran', 'pinjaman.id_pinjaman = pembayaran.pinjaman_id', 'left');
+		$this->db->where('id_pinjaman', $id_pinjaman);
+		$this->db->order_by('pembayaran.sisa_cicilan', 'DESC'); // Sort by cicilan_ke in descending order
+		$this->db->limit(1);
+		$this->db->from('pinjaman');
+		$query = $this->db->get();
+
+		return $query->row_array();
+	}
+
+
 	public function save($data_pinjam)
 	{
 		return $this->db->insert('pinjaman', $data_pinjam);
@@ -85,6 +106,13 @@ class M_pinjaman extends CI_Model
 	{
 		$this->db->where('id_pinjaman', $id);
 		$this->db->update('pinjaman', $data);
+	}
+
+	public function mengajukan_pelunasan($id)
+	{
+		$data = ['catatan_peminjaman' => 'Mengajukan Pelunasan'];
+		$this->db->where('id_pinjaman', $id);
+		return $this->db->update('pinjaman', $data);
 	}
 }
 

@@ -76,7 +76,11 @@
                             <?php if ($value->catatan_peminjaman == 'Belum Lunas') { ?>
                               <a class="btn btn-primary" href="<?php echo site_url('Pembayaran/add/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-plus"></i>Pembayaran</a>
                               <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
+                            <?php } else if ($value->catatan_peminjaman == 'Lunas') { ?>
+                              <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
                             <?php } else { ?>
+                              <a href="#" class="btn btn-primary approve-btn" data-id="<?php echo $value->id_pinjaman; ?>"><i class="fa fa-fw fa-check"></i>Terima Pelunasan</a>
+                              <a href="#" class="btn btn-danger reject-btn" data-id="<?php echo $value->id_pinjaman; ?>"><i class="fa fa-fw fa-times"></i>Tolak Pelunasan</a>
                               <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
                             <?php } ?>
                           </td>
@@ -112,25 +116,54 @@
     <div class="control-sidebar-bg"></div>
   </div>
 
-  <!-- Logout Delete Confirmation-->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Approve Modal -->
+  <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
+          <h5 class="modal-title" id="approveModalLabel">Approve Pelunasan ?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">Data yang dihapus tidak akan bisa dikembalikan.</div>
+        <div class="modal-body">
+          <form id="approveForm" method="post">
+            <!-- <div class="form-group">
+              <label>No Pembayaran</label>
+            </div> -->
+            <div class="form-group">
+              <label>No Pinjaman</label>
+              <input name="no_pinjaman" id="noPinjaman" class="form-control" type="text" readonly />
+            </div>
+            <div class="form-group">
+              <label>Besar Pinjaman</label>
+              <input name="besar_pinjaman" id="besarPinjaman" class="form-control" type="text" readonly />
+            </div>
+            <div class="form-group">
+              <label>Sisa Cicilan</label>
+              <input name="sisa_cicilan" id="sisaCicilan" class="form-control" type="text" readonly />
+            </div>
+            <!-- <div class="form-group">
+              <label>Cicilan Ke</label>
+            </div> -->
+            <div class="form-group">
+              <label>Sisa Pembayaran</label>
+              <input name="sisa_pembayaran" id="sisaPembayaran" class="form-control" type="text" readonly />
+            </div>
+            <input name="no_pembayaran" id="noPembayaran" class="form-control" type="hidden" readonly />
+            <input name="jml_cicilan" id="jmlCicilan" class="form-control" type="hidden" readonly />
+            <input name="cicilan_ke" id="cicilanKe" class="form-control" type="hidden" readonly />
+            <input type="hidden" name="id_pinjaman" id="id_pinjaman">
+          </form>
+        </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a id="btn-delete" class="btn btn-danger" href="#">Delete</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" id="confirmApprove" class="btn btn-ijo">Approve</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- ./wrapper -->
+
   <?php $this->load->view("admin/_includes/bottom_script_view.php") ?>
   <!-- page script -->
   <script>
@@ -139,11 +172,76 @@
       $('#deleteModal').modal();
     }
   </script>
-  <!-- <script>
-    document.getElementById('print-data').addEventListener('click', function() {
-      window.location.href = '<?php echo site_url("Laporan/print_data_pembayaran"); ?>';
+  <script>
+    $(document).ready(function() {
+      $('.approve-btn').on('click', function() {
+        var id_pinjaman = $(this).data('id');
+
+        $.ajax({
+          url: '<?php echo site_url('pelunasan/get_data_pelunasan/'); ?>' + id_pinjaman,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var cicilan_ke = Number(data.cicilan_ke);
+            var jml_cicilan = Number(data.jml_cicilan_pinjam);
+            var sisa_cicilan = Number(data.sisa_cicilan);
+
+            var display_value;
+
+            if (cicilan_ke == null || cicilan_ke == 0) {
+              display_value = 1;
+            } else {
+              display_value = cicilan_ke + 1;
+              if (display_value > jml_cicilan) {
+                display_value = jml_cicilan;
+              }
+            }
+
+            if (sisa_cicilan == null || sisa_cicilan == 0) {
+              sisa_value = jml_cicilan;
+            } else {
+              sisa_value = sisa_cicilan;
+            }
+
+            $('#jmlCicilan').val(jml_cicilan);
+            $('#cicilanKe').val(display_value);
+
+            var sisa_pembayaran = sisa_value * data.besar_cicilan_pinjam;
+            $('#id_pinjaman').val(id_pinjaman);
+            $('#noPinjaman').val(data.no_pinjaman);
+            $('#noPembayaran').val(data.no_pembayaran);
+
+            // Format the number with thousands separators
+            var formattedBesarPinjaman = Number(data.jml_pinjaman).toLocaleString('en-US');
+            $('#besarPinjaman').val(formattedBesarPinjaman);
+
+            $('#sisaCicilan').val(sisa_value);
+            $('#sisaPembayaran').val(sisa_pembayaran.toLocaleString('en-US'));
+            $('#approveModal').modal('show');
+
+          }
+        });
+
+        $('#approveForm').attr('action', '<?php echo site_url('pelunasan/approve_pelunasan/'); ?>');
+
+      });
+
+      $('.reject-btn').on('click', function() {
+        var id_pengajuan = $(this).data('id');
+        $('#rejectModal').modal('show');
+        $('#rejectForm').attr('action', '<?php echo site_url('pengajuan/rejected/'); ?>' + id_pengajuan);
+      });
+
+      $('#confirmApprove').on('click', function() {
+        $('#approveForm').submit();
+      });
+
+      $('#confirmReject').on('click', function() {
+        $('#rejectForm').submit();
+      });
     });
-  </script> -->
+  </script>
+
 </body>
 
 </html>

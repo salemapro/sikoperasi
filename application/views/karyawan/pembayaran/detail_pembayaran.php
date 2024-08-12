@@ -44,7 +44,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
+                <!-- <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button> -->
               </div>
 
               <div class="box-body table-responsive">

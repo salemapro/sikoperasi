@@ -40,9 +40,11 @@ class Pembayaran extends MY_Controller
 			$data["pembayaran"] = $this->M_pembayaran->get_detail_by_user($id);
 			$this->load->view("karyawan/pembayaran/detail_pembayaran", $data);
 		} else if ($role == 'manajer') {
+			$data["id"] = $id;
 			$data["pembayaran"] = $this->M_pembayaran->get_all_detail($id);
 			$this->load->view("manajer/pembayaran/detail_pembayaran", $data);
 		} else if ($role == 'hrd') {
+			$data["id"] = $id;
 			$data["pembayaran"] = $this->M_pembayaran->get_all_detail($id);
 			$this->load->view("hrd/pembayaran/detail_pembayaran", $data);
 		}

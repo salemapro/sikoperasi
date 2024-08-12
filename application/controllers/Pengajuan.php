@@ -43,29 +43,35 @@ class Pengajuan extends MY_Controller
 		$this->form_validation->set_rules('jml_cicilan', 'Jumlah Cicilan', 'required', ['required' => '%s tidak boleh kosong']);
 
 		if ($this->form_validation->run() == TRUE) {
-			$data = array(
-				'no_pengajuan' => $this->input->post('no_pengajuan'),
-				'nip' => $this->input->post('nip'),
-				'sisa_kontrak' => $this->input->post('sisa_kontrak'),
-				'nama' => $this->input->post('nama'),
-				'bagian' => $this->input->post('bagian'),
-				'besar_pinjam' => $this->input->post('jml_pinjaman'),
-				'jml_cicilan' => $this->input->post('jml_cicilan'),
-				'status' => "waiting"
-			);
-			$jml_cicilan = $this->input->post('jml_cicilan');
-			$sisa_kontrak = $this->input->post('sisa_kontrak');
-
-			if ($jml_cicilan >= $sisa_kontrak) {
-				$this->session->set_flashdata('error', 'Pinjaman Gagal Diajukan, Jumlah Cicilan Melebihi Sisa Kontrak');
-				redirect('pengajuan/add');
+			$check_pinjaman = $this->M_pinjaman->check_pinjaman_exist($this->session->userdata('nip'));
+			if ($check_pinjaman) {
+				$this->session->set_flashdata('error', 'Pinjaman Gagal Diajukan Anda Memiliki Pinjaman Yang Belum Lunas');
+				redirect('pengajuan');
 			} else {
-				if ($pengajuan->save($data)) {
-					$this->session->set_flashdata('success', 'Pinjaman Berhasil Diajukan');
-					redirect('pengajuan');
+				$data = array(
+					'no_pengajuan' => $this->input->post('no_pengajuan'),
+					'nip' => $this->input->post('nip'),
+					'sisa_kontrak' => $this->input->post('sisa_kontrak'),
+					'nama' => $this->input->post('nama'),
+					'bagian' => $this->input->post('bagian'),
+					'besar_pinjam' => $this->input->post('jml_pinjaman'),
+					'jml_cicilan' => $this->input->post('jml_cicilan'),
+					'status' => "waiting"
+				);
+				$jml_cicilan = $this->input->post('jml_cicilan');
+				$sisa_kontrak = $this->input->post('sisa_kontrak');
+
+				if ($jml_cicilan >= $sisa_kontrak) {
+					$this->session->set_flashdata('error', 'Pinjaman Gagal Diajukan, Jumlah Cicilan Melebihi Sisa Kontrak');
+					redirect('pengajuan/add');
 				} else {
-					$this->session->set_flashdata('error', 'Pinjaman Gagal Diajukan');
-					redirect('pengajuan');
+					if ($pengajuan->save($data)) {
+						$this->session->set_flashdata('success', 'Pinjaman Berhasil Diajukan');
+						redirect('pengajuan');
+					} else {
+						$this->session->set_flashdata('error', 'Pinjaman Gagal Diajukan');
+						redirect('pengajuan');
+					}
 				}
 			}
 		} else {

@@ -1,9 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * author inogalwargan
- */
-
 class Karyawan extends MY_Controller
 {
 	public function __construct()

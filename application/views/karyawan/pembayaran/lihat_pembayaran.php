@@ -53,7 +53,7 @@
             <div class="box">
               <div class="box-header">
                 <!-- <a href="<?php echo base_url('pembayaran/add') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
-                <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
+                <!-- <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button> -->
                 <!-- <button class="btn btn-ijo"><i class="fa fa-fw fa-upload"></i>Import Data</button> -->
               </div>
               <!-- /.box-header -->
@@ -78,7 +78,12 @@
                           <td><?php cetak($value->nama_peminjam) ?></td>
                           <td><?php cetak($value->catatan_peminjaman)  ?></td>
                           <td>
-                            <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
+                            <?php if ($value->catatan_peminjaman == 'Belum Lunas') { ?>
+                              <a href="#" class="btn btn-primary pengajuan-btn" data-id="<?php echo $value->id_pinjaman; ?>"><i class="fa fa-fw fa-plus"></i>Mengajukan Pelunasan</a>
+                              <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
+                            <?php } else { ?>
+                              <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
+                            <?php } ?>
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -117,28 +122,102 @@
     <div class="control-sidebar-bg"></div>
   </div>
 
-  <!-- Logout Delete Confirmation-->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Pelunasan Modal -->
+  <div class="modal fade" id="pelunasanModal" tabindex="-1" role="dialog" aria-labelledby="pelunasanModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
+          <h5 class="modal-title" id="pelunasanModalLabel">Pelunasan Submission</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">Data yang dihapus tidak akan bisa dikembalikan.</div>
+        <div class="modal-body">
+          <form id="pelunasanForm" method="post">
+            <div class="form-group">
+              <label>No Pinjaman</label>
+              <input name="no_pinjaman" id="noPinjaman" class="form-control" type="text" readonly />
+            </div>
+            <div class="form-group">
+              <label>Besar Pinjaman</label>
+              <input name="besar_pinjaman" id="besarPinjaman" class="form-control" type="text" readonly />
+            </div>
+            <div class="form-group">
+              <label>Sisa Cicilan</label>
+              <input name="sisa_cicilan" id="sisaCicilan" class="form-control" type="text" readonly />
+            </div>
+            <div class="form-group">
+              <label>Sisa Pembayaran</label>
+              <input name="sisa_pembayaran" id="sisaPembayaran" class="form-control" type="text" readonly />
+            </div>
+            <input type="hidden" name="id_pinjaman" id="id_pinjaman">
+          </form>
+        </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a id="btn-delete" class="btn btn-danger" href="#">Delete</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" id="confirmPelunasan" class="btn btn-ijo">Mengajukan Pelunasan</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- ./wrapper -->
+
   <?php $this->load->view("karyawan/_includes/bottom_script_view.php") ?>
   <!-- page script -->
   <script>
+    $(document).ready(function() {
+      $('.pengajuan-btn').on('click', function() {
+        var idPinjaman = $(this).data('id');
+
+        // Fetch the sisa_cicilan using AJAX
+        $.ajax({
+          url: '<?php echo site_url('pelunasan/get_data_pelunasan/'); ?>' + idPinjaman,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var cicilan_ke = Number(data.cicilan_ke);
+            var jml_cicilan = Number(data.jml_cicilan_pinjam);
+            var sisa_cicilan = Number(data.sisa_cicilan);
+            var display_value;
+
+            if (cicilan_ke == null || cicilan_ke == 0) {
+              display_value = 1;
+            } else {
+              display_value = cicilan_ke + 1;
+              if (display_value > jml_cicilan) {
+                display_value = jml_cicilan;
+              }
+            }
+
+            if (sisa_cicilan == null || sisa_cicilan == 0) {
+              sisa_value = jml_cicilan;
+            } else {
+              sisa_value = sisa_cicilan;
+            }
+
+            var sisa_pembayaran = sisa_value * data.besar_cicilan_pinjam;
+            $('#id_pinjaman').val(idPinjaman);
+            $('#noPinjaman').val(data.no_pinjaman);
+
+            // Format the number with thousands separators
+            var formattedBesarPinjaman = Number(data.jml_pinjaman).toLocaleString('en-US');
+            $('#besarPinjaman').val(formattedBesarPinjaman);
+
+            $('#sisaCicilan').val(sisa_value);
+            $('#sisaPembayaran').val(sisa_pembayaran.toLocaleString('en-US'));
+            $('#pelunasanModal').modal('show');
+
+          }
+        });
+
+        $('#pelunasanForm').attr('action', '<?php echo site_url('pelunasan/mengajukan_pelunasan/'); ?>' + idPinjaman);
+      });
+
+      $('#confirmPelunasan').on('click', function() {
+        $('#pelunasanForm').submit();
+      });
+
+    });
+
     function deleteConfirm(url) {
       $('#btn-delete').attr('href', url);
       $('#deleteModal').modal();

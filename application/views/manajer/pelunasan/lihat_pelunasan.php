@@ -53,7 +53,7 @@
             <div class="box">
               <div class="box-header">
                 <!-- <a href="<?php echo base_url('Pelunasan/add') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
-                <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button>
+                <!-- <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button> -->
                 <!-- <button class="btn btn-ijo"><i class="fa fa-fw fa-upload"></i>Import Data</button> -->
               </div>
               <!-- /.box-header -->
@@ -65,7 +65,7 @@
                       <th>No Pinjaman</th>
                       <th>Nama</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -77,9 +77,9 @@
                           <td><?php cetak($value->no_pinjaman)  ?></td>
                           <td><?php cetak($value->nama_peminjam) ?></td>
                           <td><?php cetak($value->catatan_peminjaman)  ?></td>
-                          <td>
+                          <!-- <td>
                             <a class="btn btn-warning" href="<?php echo site_url('Pembayaran/cetak/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-print"></i>Cetak Bukti Lunas</a>
-                          </td>
+                          </td> -->
                         </tr>
                       <?php endforeach; ?>
                     <?php else: ?>
@@ -94,7 +94,7 @@
                       <th>No Pinjaman</th>
                       <th>Nama</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </tfoot>
                 </table>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<?php $this->load->view("manajer/_includes/head.php") ?>
+<?php $this->load->view("admin/_includes/head.php") ?>
 
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
 
-    <?php $this->load->view("manajer/_includes/header.php") ?>
-    <?php $this->load->view("manajer/_includes/sidebar.php") ?>
+    <?php $this->load->view("admin/_includes/header.php") ?>
+    <?php $this->load->view("admin/_includes/sidebar.php") ?>
 
 
     <!-- Content Wrapper. Contains page content -->
@@ -37,11 +37,11 @@
       <section class="content-header">
         <h1>
           Kelola
-          <small>Data Pembayaran</small>
+          <small>Data Pelunasan</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-fw fa-child"></i> Pembayaran</a></li>
-          <li><a href="#">Lihat Data Pembayaran</a></li>
+          <li><a href="#"><i class="fa fa-fw fa-child"></i> Pelunasan</a></li>
+          <li><a href="#">Lihat Data Pelunasan</a></li>
         </ol>
       </section>
 
@@ -52,7 +52,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <!-- <a href="<?php echo base_url('Pembayaran/add') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
+                <!-- <a href="<?php echo base_url('Pelunasan/add') ?>" class="btn btn-tosca"><i class="fa fa-fw fa-plus"></i>Tambah</a> -->
                 <!-- <button class="btn btn-carot"><i class="fa fa-fw fa-download"></i>Export Data</button> -->
                 <!-- <button class="btn btn-ijo"><i class="fa fa-fw fa-upload"></i>Import Data</button> -->
               </div>
@@ -65,7 +65,7 @@
                       <th>No Pinjaman</th>
                       <th>Nama</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -77,9 +77,9 @@
                           <td><?php cetak($value->no_pinjaman)  ?></td>
                           <td><?php cetak($value->nama_peminjam) ?></td>
                           <td><?php cetak($value->catatan_peminjaman)  ?></td>
-                          <td>
-                            <a class="btn btn-success" href="<?php echo site_url('Pembayaran/detail/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-eye"></i>Detail Pembayaran</a>
-                          </td>
+                          <!-- <td>
+                            <a class="btn btn-warning" href="<?php echo site_url('Pembayaran/cetak/' . $value->id_pinjaman) ?>"><i class="fa fa-fw fa-print"></i>Cetak Bukti Lunas</a>
+                          </td> -->
                         </tr>
                       <?php endforeach; ?>
                     <?php else: ?>
@@ -94,7 +94,7 @@
                       <th>No Pinjaman</th>
                       <th>Nama</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </tfoot>
                 </table>
@@ -110,8 +110,8 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <?php $this->load->view("manajer/_includes/footer.php") ?>
-    <?php $this->load->view("manajer/_includes/control_sidebar.php") ?>
+    <?php $this->load->view("admin/_includes/footer.php") ?>
+    <?php $this->load->view("admin/_includes/control_sidebar.php") ?>
     <!-- Add the sidebar's background. This div must be placed
    immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
@@ -136,7 +136,7 @@
     </div>
   </div>
   <!-- ./wrapper -->
-  <?php $this->load->view("manajer/_includes/bottom_script_view.php") ?>
+  <?php $this->load->view("admin/_includes/bottom_script_view.php") ?>
   <!-- page script -->
   <script>
     function deleteConfirm(url) {

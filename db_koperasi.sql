@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2024 at 06:03 PM
+-- Generation Time: Aug 12, 2024 at 05:19 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.1.30
 
@@ -85,7 +85,8 @@ INSERT INTO `pembayaran` (`id_pembayaran`, `no_pembayaran`, `pinjaman_id`, `cici
 (13, 'B-PNJ0002003', 2, '3', '12', '1,000,000', '2024-08-10 10:55:16', 1),
 (14, 'B-PNJ0002004', 2, '4', '11', '1,000,000', '2024-08-10 10:55:33', 1),
 (15, 'B-PNJ0002005', 2, '5', '10', '1,000,000', '2024-08-10 10:56:53', 1),
-(16, 'B-PNJ0002006', 2, '6', '9', '1,000,000', '2024-08-10 10:57:45', 1);
+(16, 'B-PNJ0002006', 2, '6', '9', '1,000,000', '2024-08-10 10:57:45', 1),
+(17, 'B-PNJ0002007', 2, '7', '6', '9,000,000', '2024-08-12 14:39:52', 1);
 
 -- --------------------------------------------------------
 
@@ -116,7 +117,8 @@ CREATE TABLE `pengajuan` (
 INSERT INTO `pengajuan` (`id_pengajuan`, `no_pengajuan`, `nip`, `nama`, `bagian`, `sisa_kontrak`, `tgl_pengajuan`, `besar_pinjam`, `tgl_acc`, `jml_pinjam_disetujui`, `jml_cicilan`, `besar_cicilan`, `status`) VALUES
 (1, 'PGJ0001', '212303003', 'Agung Ridho', 'Finance', '12', '2024-08-09 16:05:19', '5000000', '-', '-', '10', '-', 'rejected'),
 (2, 'PGJ0002', '212303003', 'Agung Ridho', 'Finance', '12', '2024-08-10 02:57:08', '4000000', '2024-08-10', '4000000', '10', '400000', 'approved'),
-(3, 'PGJ0003', '212303002', 'Salema', 'Sekretaris', '24', '2024-08-10 10:32:51', '15000000', '2024-08-10', '15000000', '15', '1000000', 'approved');
+(3, 'PGJ0003', '212303002', 'Salema', 'Sekretaris', '24', '2024-08-10 10:32:51', '15000000', '2024-08-10', '15000000', '15', '1000000', 'approved'),
+(4, 'PGJ0004', '212303003', 'Agung Ridho', 'Finance', '12', '2024-08-12 13:43:15', '1000000', '2024-08-12', '1000000', '2', '500000', 'approved');
 
 -- --------------------------------------------------------
 
@@ -144,7 +146,8 @@ CREATE TABLE `pinjaman` (
 
 INSERT INTO `pinjaman` (`id_pinjaman`, `no_pinjaman`, `nip_peminjam`, `nama_peminjam`, `jml_pinjaman`, `tgl_pinjaman`, `tenor`, `jml_cicilan_pinjam`, `besar_cicilan_pinjam`, `catatan_peminjaman`, `date`) VALUES
 (1, 'PNJ0001', '212303003', 'Agung Ridho', '4000000', '2024-08-10', '2025-06-10', '10', '400000', 'Lunas', '2024-08-10 03:49:39'),
-(2, 'PNJ0002', '212303002', 'Salema', '15000000', '2024-08-10', '2025-11-10', '15', '1000000', 'Belum Lunas', '2024-08-10 10:33:13');
+(2, 'PNJ0002', '212303002', 'Salema', '15000000', '2024-08-10', '2025-11-10', '15', '1000000', 'Lunas', '2024-08-10 10:33:13'),
+(3, 'PNJ0003', '212303003', 'Agung Ridho', '1000000', '2024-08-12', '2024-10-12', '2', '500000', 'Belum Lunas', '2024-08-12 13:50:11');
 
 -- --------------------------------------------------------
 
@@ -220,19 +223,19 @@ ALTER TABLE `karyawan`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pinjaman`
 --
 ALTER TABLE `pinjaman`
-  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
